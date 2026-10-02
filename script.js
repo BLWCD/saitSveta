@@ -7,8 +7,9 @@ let musicPlaying = false;
 let gameAttempts = 3;
 let vladPosition = 0;
 let gameCells = [];
+let retryCount = 0;
+const MAX_RETRIES = 3;
 
-// 20 иконок для игры
 const gameIcons = [
     "🐱", "🍕", "🎮", "🌸", "🍩",
     "🎸", "🚀", "🍓", "🌈", "🦊",
@@ -17,7 +18,48 @@ const gameIcons = [
 ];
 const VLAD_ICON = "🤴";
 
-// ============ ДАТА ОТНОШЕНИЙ ============
+// ============ ДОЛГИ ============
+const DEBT_PER_WIN = 10;
+
+function getDebts() {
+    const saved = localStorage.getItem("svetaDebts");
+    return saved ? parseInt(saved) : 0;
+}
+
+function addDebt() {
+    const current = getDebts();
+    const newCount = current + 1;
+    localStorage.setItem("svetaDebts", newCount);
+    updateDebtDisplay();
+    return newCount;
+}
+
+function updateDebtDisplay() {
+    const count = getDebts();
+    const el = document.getElementById("debtCount");
+    if (el) el.textContent = count;
+}
+
+function showDebts() {
+    document.getElementById("categoriesBlock").classList.add("hidden");
+    document.getElementById("subMenuBlock").classList.add("hidden");
+    document.getElementById("resultBlock").classList.add("hidden");
+    document.getElementById("surpriseBlock").classList.add("hidden");
+    document.getElementById("gameBlock").classList.add("hidden");
+
+    const count = getDebts();
+    document.getElementById("totalDebt").textContent = count;
+    document.getElementById("totalMinutes").textContent = count * DEBT_PER_WIN;
+
+    document.getElementById("debtBlock").classList.remove("hidden");
+}
+
+function closeDebts() {
+    document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("categoriesBlock").classList.remove("hidden");
+}
+
+// ============ ДАТА ============
 const startDate = new Date(2025, 0, 13, 0, 0, 0);
 
 // ============ МЕНЮ ============
@@ -84,6 +126,7 @@ function updateCounter() {
 }
 setInterval(updateCounter, 1000);
 updateCounter();
+updateDebtDisplay();
 
 // ============ МУЗЫКА ============
 function toggleMusic() {
@@ -122,13 +165,14 @@ function changeVolume(delta) {
     showToast(`Громкость: ${Math.round(v * 100)}%`);
 }
 
-// ============ КАТЕГОРИИ / ПОДМЕНЮ ============
+// ============ КАТЕГОРИИ ============
 function showSubMenu(category) {
     selectedCategory = category;
     document.getElementById("categoriesBlock").classList.add("hidden");
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
 
     const subMenuBlock = document.getElementById("subMenuBlock");
     subMenuBlock.classList.remove("hidden");
@@ -163,6 +207,7 @@ function backToCategories() {
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
@@ -191,6 +236,7 @@ function cancelAll() {
     document.getElementById("subMenuBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
     document.getElementById("comment").value = "";
     showToast("Выбор отменён 💕");
@@ -203,6 +249,7 @@ function showSurprise() {
     document.getElementById("subMenuBlock").classList.add("hidden");
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
 
     const surpriseBlock = document.getElementById("surpriseBlock");
     surpriseBlock.classList.remove("hidden");
@@ -215,8 +262,21 @@ function closeSurprise() {
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
-// ============ ИГРА "НАЙДИ ВЛАДА" ============
+// ============ ИГРА ============
 function startGame() {
+    retryCount = 0;
+    initGame();
+}
+
+function retryGame() {
+    retryCount++;
+    if (retryCount > MAX_RETRIES) {
+        showToast(`⚠️ Лимит попыток превышен. Долг не будет начислен.`);
+    }
+    initGame();
+}
+
+function initGame() {
     gameAttempts = 3;
     vladPosition = Math.floor(Math.random() * 20);
 
@@ -226,11 +286,23 @@ function startGame() {
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("winBlock").classList.add("hidden");
     document.getElementById("loseBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
 
     const gameBlock = document.getElementById("gameBlock");
     gameBlock.classList.remove("hidden");
     document.getElementById("attemptsLeft").textContent = "3";
 
+    const retryInfo = document.getElementById("retryInfo");
+    if (retryInfo) {
+        if (retryCount > 0) {
+            retryInfo.textContent = `🔄 Попыток перезапуска: ${retryCount} / ${MAX_RETRIES}`;
+            retryInfo.classList.remove("hidden");
+        } else {
+            retryInfo.classList.add("hidden");
+        }
+    }
+
+    updateDebtDisplay();
     buildGameGrid();
 
     if (navigator.vibrate) navigator.vibrate(50);
@@ -239,7 +311,6 @@ function startGame() {
 function buildGameGrid() {
     const grid = document.getElementById("gameGrid");
     grid.innerHTML = "";
-
     gameCells = [];
 
     gameIcons.forEach((icon, index) => {
@@ -258,13 +329,11 @@ function clickCell(cell, index) {
     if (cell.classList.contains("found")) return;
 
     if (index === vladPosition) {
-        // Нашли Влада!
         cell.textContent = VLAD_ICON;
         cell.classList.add("found");
         gameCells[index].clicked = true;
         triggerWin();
     } else {
-        // Не нашли
         cell.classList.add("opened");
         gameAttempts--;
         document.getElementById("attemptsLeft").textContent = gameAttempts;
@@ -283,15 +352,47 @@ function triggerWin() {
         document.getElementById("gameBlock").classList.add("hidden");
         document.getElementById("winBlock").classList.remove("hidden");
 
-        // ТРИ ЭФФЕКТА
         fireSparkles();
         fireRainbowWave();
         setTimeout(() => fireHeartParticles(), 300);
 
-        // В Telegram
-        const attemptsUsed = 3 - gameAttempts;
-        const message = `🎉 <b>Светлана нашла тебя!</b>\n\nПопыток использовано: ${attemptsUsed} из 3\nОна кликнула на позицию ${vladPosition + 1} 💕`;
-        sendToTelegram(message);
+        const isDebtValid = retryCount <= MAX_RETRIES;
+
+        if (isDebtValid) {
+            const totalDebts = addDebt();
+            const attemptsUsed = 3 - gameAttempts;
+
+            const message = 
+                `🎉 <b>Светлана нашла тебя!</b>\n\n` +
+                `🎯 Попыток использовано: ${attemptsUsed} из 3\n` +
+                `🔄 Перезапусков: ${retryCount} из ${MAX_RETRIES}\n` +
+                `💆 <b>Ты должен ей: ${DEBT_PER_WIN} минут массажа</b>\n` +
+                `💰 Всего долгов: <b>${totalDebts}</b>\n` +
+                `⏱ Общее время массажа: <b>${totalDebts * DEBT_PER_WIN} минут</b>`;
+
+            sendToTelegram(message);
+
+            const winDebtEl = document.getElementById("winDebt");
+            if (winDebtEl) {
+                winDebtEl.innerHTML = `💆 Ты должен: <b>${DEBT_PER_WIN} минут массажа</b><br>💰 Всего долгов: <b>${totalDebts}</b>`;
+                winDebtEl.classList.remove("hidden");
+                winDebtEl.style.color = "#0ca678";
+            }
+        } else {
+            const message = 
+                `⚠️ <b>Светлана нашла тебя, но долг не начислен</b>\n\n` +
+                `🔄 Перезапусков: ${retryCount} (лимит ${MAX_RETRIES})\n` +
+                `💆 Долг не начислен — слишком много попыток`;
+
+            sendToTelegram(message);
+
+            const winDebtEl = document.getElementById("winDebt");
+            if (winDebtEl) {
+                winDebtEl.innerHTML = `⚠️ Лимит перезапусков превышен<br>💆 <b>Долг не начислен</b>`;
+                winDebtEl.classList.remove("hidden");
+                winDebtEl.style.color = "#dc3545";
+            }
+        }
 
         if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
     }, 400);
@@ -301,13 +402,16 @@ function triggerLose() {
     document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("loseBlock").classList.remove("hidden");
 
-    // Показать где был Влад
     const vladCell = gameCells[vladPosition].element;
     vladCell.textContent = VLAD_ICON;
     vladCell.classList.add("found");
 
-    // В Telegram
-    const message = `😢 <b>Светлана не нашла тебя</b>\n\nИспользовала все 3 попытки. Ты был на позиции ${vladPosition + 1}.`;
+    const message = 
+        `😢 <b>Светлана не нашла тебя</b>\n\n` +
+        `Использовала все 3 попытки.\n` +
+        `Ты был на позиции ${vladPosition + 1}.\n` +
+        `💆 Долг не начислен — попробует ещё!`;
+
     sendToTelegram(message);
 
     if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
@@ -317,10 +421,11 @@ function closeGame() {
     document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("winBlock").classList.add("hidden");
     document.getElementById("loseBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
-// ============ ЭФФЕКТ 1: ИСКРЫ ============
+// ============ ЭФФЕКТЫ ============
 function fireSparkles() {
     const container = document.getElementById("particlesContainer");
     const centerX = window.innerWidth / 2;
@@ -334,12 +439,8 @@ function fireSparkles() {
 
         const angle = Math.random() * Math.PI * 2;
         const distance = 100 + Math.random() * 400;
-        const tx = Math.cos(angle) * distance;
-        const ty = Math.sin(angle) * distance;
-
-        spark.style.setProperty("--tx", tx + "px");
-        spark.style.setProperty("--ty", ty + "px");
-
+        spark.style.setProperty("--tx", (Math.cos(angle) * distance) + "px");
+        spark.style.setProperty("--ty", (Math.sin(angle) * distance) + "px");
         spark.style.animationDelay = (Math.random() * 0.3) + "s";
 
         container.appendChild(spark);
@@ -347,7 +448,6 @@ function fireSparkles() {
     }
 }
 
-// ============ ЭФФЕКТ 2: РАДУЖНАЯ ВОЛНА ============
 function fireRainbowWave() {
     const wave = document.createElement("div");
     wave.className = "rainbow-wave";
@@ -355,28 +455,23 @@ function fireRainbowWave() {
     setTimeout(() => wave.remove(), 2200);
 }
 
-// ============ ЭФФЕКТ 3: СЕРДЦЕ ИЗ ЧАСТИЦ ============
 function fireHeartParticles() {
     const container = document.getElementById("particlesContainer");
     const centerX = window.innerWidth / 2;
     const centerY = window.innerHeight / 2;
 
-    // Формула сердца
     for (let i = 0; i < 80; i++) {
         const t = (i / 80) * Math.PI * 2;
         const x = 16 * Math.pow(Math.sin(t), 3);
         const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
-
         const scale = 12;
-        const targetX = x * scale;
-        const targetY = y * scale;
 
         const particle = document.createElement("div");
         particle.className = "heart-particle";
         particle.style.left = centerX + "px";
         particle.style.top = centerY + "px";
-        particle.style.setProperty("--tx", targetX + "px");
-        particle.style.setProperty("--ty", targetY + "px");
+        particle.style.setProperty("--tx", (x * scale) + "px");
+        particle.style.setProperty("--ty", (y * scale) + "px");
         particle.style.animationDelay = (i * 0.02) + "s";
 
         container.appendChild(particle);
@@ -482,4 +577,5 @@ window.addEventListener("load", () => {
         music.volume = parseFloat(savedVolume);
         document.getElementById("volumeSlider").value = savedVolume;
     }
+    updateDebtDisplay();
 });
