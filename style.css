@@ -28,7 +28,6 @@ body {
     100% { background-position: 0% 50%; }
 }
 
-/* Плавающие сердечки */
 .hearts {
     position: fixed;
     top: 0; left: 0;
@@ -64,7 +63,7 @@ body {
     100% { bottom: 110vh; opacity: 0; transform: translateX(50px) rotate(360deg); }
 }
 
-/* Плеер */
+/* ===== ПЛЕЕР ===== */
 .music-panel {
     position: fixed;
     top: 20px;
@@ -225,7 +224,7 @@ body {
     cursor: pointer;
 }
 
-/* Контейнер */
+/* ===== КОНТЕЙНЕР ===== */
 .container {
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(15px);
@@ -288,7 +287,7 @@ h1 {
 .counter-item span { font-size: 2rem; font-weight: bold; display: block; }
 .counter-item p { font-size: 0.85rem; margin-top: 5px; }
 
-/* Кнопки */
+/* ===== КНОПКИ ===== */
 .surprise-btn {
     background: linear-gradient(135deg, #ffd93d, #ff9a3d);
     color: #fff;
@@ -321,6 +320,23 @@ h1 {
 }
 
 .game-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+.debt-btn {
+    background: linear-gradient(135deg, #20c997, #0ca678);
+    color: #fff;
+    border: none;
+    padding: 15px 35px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 25px;
+    margin-left: 10px;
+    box-shadow: 0 10px 25px rgba(32, 201, 151, 0.5);
+    transition: all 0.3s;
+}
+
+.debt-btn:hover { transform: translateY(-5px) scale(1.05); }
 
 .cards {
     display: grid;
@@ -407,7 +423,7 @@ h1 {
 
 .back-btn:hover { background: rgba(255, 255, 255, 0.9); }
 
-#resultBlock, #surpriseBlock {
+#resultBlock, #surpriseBlock, #gameBlock, #winBlock, #loseBlock, #debtBlock {
     background: rgba(255, 240, 245, 0.95);
     border-radius: 20px;
     padding: 25px;
@@ -421,7 +437,7 @@ h1 {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-#resultBlock h3, #surpriseBlock h3 {
+#resultBlock h3, #surpriseBlock h3, #gameBlock h3, #winBlock h3, #loseBlock h3, #debtBlock h3 {
     color: #d6336c;
     margin-bottom: 15px;
     font-size: 1.4rem;
@@ -480,6 +496,7 @@ textarea:focus {
     transition: all 0.3s;
     box-shadow: 0 8px 20px rgba(214, 51, 108, 0.4);
     font-weight: 600;
+    margin: 5px;
 }
 
 .btn-primary:hover { transform: translateY(-3px) scale(1.05); }
@@ -494,6 +511,7 @@ textarea:focus {
     cursor: pointer;
     transition: all 0.3s;
     font-weight: 600;
+    margin: 5px;
 }
 
 .btn-secondary:hover { background: #d6336c; color: #fff; }
@@ -509,22 +527,7 @@ textarea:focus {
     margin-top: 5px;
 }
 
-/* === ИГРА === */
-#gameBlock, #winBlock, #loseBlock {
-    background: rgba(255, 240, 245, 0.95);
-    border-radius: 20px;
-    padding: 25px;
-    margin-top: 20px;
-    animation: slideUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    box-shadow: 0 15px 35px rgba(214, 51, 108, 0.2);
-}
-
-#gameBlock h3, #winBlock h3, #loseBlock h3 {
-    color: #d6336c;
-    margin-bottom: 15px;
-    font-size: 1.6rem;
-}
-
+/* ===== ИГРА ===== */
 .game-hint {
     color: #b02a56;
     font-size: 1rem;
@@ -534,6 +537,20 @@ textarea:focus {
 
 .game-attempts {
     color: #d6336c;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.game-retry {
+    color: #ff6b00;
+    font-size: 0.95rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+.game-debt {
+    color: #0ca678;
     font-size: 1.1rem;
     font-weight: 700;
     margin-bottom: 20px;
@@ -602,7 +619,31 @@ textarea:focus {
     animation: pulseCell 1s ease infinite alternate;
 }
 
-/* === ЧАСТИЦЫ === */
+.win-debt {
+    color: #0ca678;
+    font-size: 1.1rem;
+    font-weight: 600;
+    padding: 15px;
+    background: #e6fffa;
+    border-radius: 15px;
+    margin: 15px 0;
+    line-height: 1.5;
+}
+
+#debtBlock .debt-big {
+    color: #b02a56;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 10px;
+}
+
+#debtBlock .debt-total {
+    color: #0ca678;
+    font-size: 1.2rem;
+    margin-bottom: 25px;
+}
+
+/* ===== ЧАСТИЦЫ ===== */
 #particlesContainer {
     position: fixed;
     top: 0; left: 0;
@@ -628,7 +669,6 @@ textarea:focus {
     100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
 }
 
-/* Сердце из частиц */
 .heart-particle {
     position: absolute;
     width: 12px;
@@ -646,7 +686,6 @@ textarea:focus {
     100% { transform: translate(var(--tx), var(--ty)) scale(0.3); opacity: 0.8; }
 }
 
-/* Радужная волна */
 .rainbow-wave {
     position: fixed;
     top: 50%;
@@ -674,7 +713,7 @@ textarea:focus {
     100% { width: 250vmax; height: 250vmax; opacity: 0; }
 }
 
-/* === ВРЕМЯ СУТОК === */
+/* ===== ВРЕМЯ СУТОК ===== */
 body.morning { background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ff9a9e, #fecfef) !important; background-size: 400% 400% !important; }
 body.day { background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #fbc2eb, #a18cd1) !important; background-size: 400% 400% !important; }
 body.evening { background: linear-gradient(-45deg, #2c1a4d, #6b3fa0, #d6336c, #ff9a3d) !important; background-size: 400% 400% !important; }
@@ -747,9 +786,10 @@ body.night .track-title { color: #ff9a9e; }
 body.night .track-artist { color: #aaa; }
 body.night .game-cell { background: linear-gradient(135deg, rgba(60, 30, 90, 0.8), rgba(40, 20, 70, 0.8)); }
 body.night .game-cell:hover { border-color: #ff9a9e; }
-body.night #gameBlock, body.night #winBlock, body.night #loseBlock { background: rgba(30, 20, 50, 0.95); }
+body.night #gameBlock, body.night #winBlock, body.night #loseBlock, body.night #debtBlock { background: rgba(30, 20, 50, 0.95); }
+body.night .win-debt { background: rgba(30, 100, 80, 0.4); color: #6ee7b7; }
 
-/* Мобильная адаптация */
+/* ===== МОБИЛЬНАЯ ===== */
 @media (max-width: 600px) {
     h1 { font-size: 1.7rem; }
     .container { padding: 25px; margin-top: 130px; }
@@ -766,7 +806,7 @@ body.night #gameBlock, body.night #winBlock, body.night #loseBlock { background:
     .music-player { max-width: 100%; }
     #volumeSlider { width: 70px; }
     .moon { width: 60px; height: 60px; top: 40px; right: 30px; }
-    .surprise-btn, .game-btn { display: block; width: 100%; margin-left: 0; margin-bottom: 12px; }
+    .surprise-btn, .game-btn, .debt-btn { display: block; width: 100%; margin-left: 0; margin-bottom: 12px; }
     .game-grid { gap: 6px; }
     .game-cell { font-size: 1.5rem; border-radius: 10px; }
 }
