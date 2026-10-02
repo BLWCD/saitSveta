@@ -5,15 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Для тебя ❤️</title>
     <link rel="stylesheet" href="style.css">
-    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
 </head>
 <body id="mainBody">
 
-    <!-- Звёздное небо (появляется ночью) -->
+    <!-- Звёздное небо -->
     <div id="nightSky" class="night-sky hidden">
         <div class="moon"></div>
         <div class="stars"></div>
     </div>
+
+    <!-- Частицы для эффектов -->
+    <div id="particlesContainer"></div>
 
     <div class="hearts">
         <span>❤️</span><span>💕</span><span>💖</span><span>💗</span><span>💓</span>
@@ -61,6 +63,7 @@
         </div>
 
         <button class="surprise-btn" onclick="showSurprise()">🎁 Хочу сюрприз!</button>
+        <button class="game-btn" onclick="startGame()">🎮 Найди меня</button>
 
         <div id="categoriesBlock">
             <div class="cards">
@@ -107,6 +110,32 @@
             <h3>🎁 Твой сюрприз:</h3>
             <p id="surpriseText"></p>
             <button class="btn-secondary" onclick="closeSurprise()">← Назад</button>
+        </div>
+
+        <!-- ИГРА "Найди Влада" -->
+        <div id="gameBlock" class="hidden">
+            <h3>🎮 Найди Влада!</h3>
+            <p class="game-hint">Я спрятался среди 20 иконок. У тебя <b>3 попытки</b>. Где я? 🤴</p>
+            <p class="game-attempts">Попыток осталось: <span id="attemptsLeft">3</span></p>
+            <div class="game-grid" id="gameGrid"></div>
+            <button class="btn-secondary" onclick="closeGame()">← Назад</button>
+        </div>
+
+        <!-- Экран победы -->
+        <div id="winBlock" class="hidden">
+            <h3>🎉 Ты нашла меня!</h3>
+            <p class="win-text">Я всегда рядом, даже когда прячусь 💕</p>
+            <div class="big-emoji">🤴</div>
+            <button class="btn-primary" onclick="closeGame()">← Назад</button>
+        </div>
+
+        <!-- Экран проигрыша -->
+        <div id="loseBlock" class="hidden">
+            <h3>😢 Не нашла...</h3>
+            <p class="lose-text">Но я всё равно тебя люблю! Вот где я был →</p>
+            <div class="big-emoji">🤴</div>
+            <button class="btn-primary" onclick="startGame()">Попробовать снова</button>
+            <button class="btn-secondary" onclick="closeGame()">← Назад</button>
         </div>
 
     </div>
