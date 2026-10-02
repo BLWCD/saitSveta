@@ -703,4 +703,70 @@ body.night { background: linear-gradient(-45deg, #0b1026, #1a1a3e, #2d1b4e, #1a1
 
 @keyframes moonGlow {
     from { box-shadow: 0 0 60px rgba(255, 248, 220, 0.8), 0 0 100px rgba(255, 248, 220, 0.4); }
-    to { box-shadow: 0 0 80px rgba(255, 248, 220, 1), 0 0 150px rgba(255, 248,
+    to { box-shadow: 0 0 80px rgba(255, 248, 220, 1), 0 0 150px rgba(255, 248, 220, 0.6); }
+}
+
+.stars {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background-image: 
+        radial-gradient(2px 2px at 20px 30px, #fff, transparent),
+        radial-gradient(2px 2px at 60px 70px, #fff, transparent),
+        radial-gradient(1px 1px at 50px 50px, #fff, transparent),
+        radial-gradient(1px 1px at 130px 80px, #fff, transparent),
+        radial-gradient(2px 2px at 90px 10px, #fff, transparent),
+        radial-gradient(1px 1px at 200px 150px, #fff, transparent),
+        radial-gradient(2px 2px at 300px 100px, #fff, transparent),
+        radial-gradient(1px 1px at 400px 200px, #fff, transparent),
+        radial-gradient(2px 2px at 500px 50px, #fff, transparent),
+        radial-gradient(1px 1px at 600px 300px, #fff, transparent),
+        radial-gradient(2px 2px at 700px 150px, #fff, transparent),
+        radial-gradient(1px 1px at 800px 250px, #fff, transparent),
+        radial-gradient(2px 2px at 900px 80px, #fff, transparent),
+        radial-gradient(1px 1px at 1000px 350px, #fff, transparent);
+    background-size: 1100px 400px;
+    background-repeat: repeat;
+    animation: twinkle 3s ease-in-out infinite alternate;
+}
+
+@keyframes twinkle {
+    from { opacity: 0.6; }
+    to { opacity: 1; }
+}
+
+body.night .container { background: rgba(20, 20, 50, 0.4); border: 1px solid rgba(255, 255, 255, 0.15); }
+body.night .card { background: rgba(40, 40, 80, 0.85); border-color: rgba(255, 255, 255, 0.2); }
+body.night .card h2 { color: #ff9a9e; }
+body.night .card p { color: #ccc; }
+body.night .sub-item { background: rgba(40, 40, 80, 0.9); color: #ff9a9e; }
+body.night .love-counter { background: linear-gradient(135deg, rgba(60, 30, 90, 0.95), rgba(40, 20, 70, 0.95)); }
+body.night .hearts span { filter: drop-shadow(0 0 8px rgba(255, 100, 150, 0.8)); }
+body.night .music-player, body.night .volume-control { background: rgba(30, 30, 60, 0.9); }
+body.night .track-title { color: #ff9a9e; }
+body.night .track-artist { color: #aaa; }
+body.night .game-cell { background: linear-gradient(135deg, rgba(60, 30, 90, 0.8), rgba(40, 20, 70, 0.8)); }
+body.night .game-cell:hover { border-color: #ff9a9e; }
+body.night #gameBlock, body.night #winBlock, body.night #loseBlock { background: rgba(30, 20, 50, 0.95); }
+
+/* Мобильная адаптация */
+@media (max-width: 600px) {
+    h1 { font-size: 1.7rem; }
+    .container { padding: 25px; margin-top: 130px; }
+    .cards { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+    .card { padding: 20px 10px; }
+    .icon { font-size: 2.2rem; }
+    .card h2 { font-size: 1.1rem; }
+    .counter-grid { grid-template-columns: repeat(2, 1fr); }
+    .counter-item span { font-size: 1.6rem; }
+    .sub-menu-list { grid-template-columns: repeat(2, 1fr); }
+    .action-buttons { flex-direction: column; }
+    .btn-primary, .btn-secondary { width: 100%; }
+    .music-panel { top: 15px; left: 15px; right: 15px; }
+    .music-player { max-width: 100%; }
+    #volumeSlider { width: 70px; }
+    .moon { width: 60px; height: 60px; top: 40px; right: 30px; }
+    .surprise-btn, .game-btn { display: block; width: 100%; margin-left: 0; margin-bottom: 12px; }
+    .game-grid { gap: 6px; }
+    .game-cell { font-size: 1.5rem; border-radius: 10px; }
+}
