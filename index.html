@@ -63,7 +63,7 @@
         <button class="surprise-btn" onclick="showSurprise()">🎁 Хочу сюрприз!</button>
         <button class="game-btn" onclick="startGame()">🎮 Найди меня</button>
         <button class="debt-btn" onclick="showDebts()">💆 Мои долги</button>
-        <button class="wish-btn" onclick="showWishlist()">💝 Мой вишлист</button>
+        <button class="wish-btn" onclick="showWishlist()">💝 Общий вишлист</button>
 
         <div id="categoriesBlock">
             <div class="cards">
@@ -146,14 +146,30 @@
             <button class="btn-secondary" onclick="closeDebts()">← Назад</button>
         </div>
 
-        <!-- ВИШЛИСТ -->
+        <!-- ОБЩИЙ ВИШЛИСТ -->
         <div id="wishlistBlock" class="hidden">
-            <h3>💝 Мой вишлист</h3>
-            <p class="wish-hint">Напиши, что ты хочешь. Я всё увижу и исполню 💕</p>
-            
+            <h3>💝 Общий вишлист</h3>
+            <p class="wish-hint">Добавляйте желания — я всё увижу и исполню 💕</p>
+
+            <!-- Кто добавляет -->
+            <div class="wish-who">
+                <p class="wish-who-label">Кто добавляет:</p>
+                <div class="wish-who-buttons">
+                    <button class="who-btn" id="whoVlad" onclick="selectWho('Владислав')">🤴 Владислав</button>
+                    <button class="who-btn" id="whoSveta" onclick="selectWho('Светлана')">👸 Светлана</button>
+                </div>
+            </div>
+
             <div class="wish-input-group">
-                <input type="text" id="wishInput" placeholder="Например: серёжки с цветочком..." maxlength="200">
+                <input type="text" id="wishInput" placeholder="Что хочешь? (например: серёжки с цветочком...)" maxlength="200">
                 <button class="btn-primary" onclick="addWish()">➕ Добавить</button>
+            </div>
+
+            <!-- Фильтр -->
+            <div class="wish-filter">
+                <button class="filter-btn active" onclick="setFilter('all')">Все</button>
+                <button class="filter-btn" onclick="setFilter('Владислав')">🤴 Владислав</button>
+                <button class="filter-btn" onclick="setFilter('Светлана')">👸 Светлана</button>
             </div>
 
             <div id="wishList" class="wish-list"></div>
