@@ -63,6 +63,7 @@
         <button class="surprise-btn" onclick="showSurprise()">🎁 Хочу сюрприз!</button>
         <button class="game-btn" onclick="startGame()">🎮 Найди меня</button>
         <button class="debt-btn" onclick="showDebts()">💆 Мои долги</button>
+        <button class="wish-btn" onclick="showWishlist()">💝 Мой вишлист</button>
 
         <div id="categoriesBlock">
             <div class="cards">
@@ -122,7 +123,6 @@
             <button class="btn-secondary" onclick="closeGame()">← Назад</button>
         </div>
 
-        <!-- ПОБЕДА -->
         <div id="winBlock" class="hidden">
             <h3>🎉 Ты нашла меня!</h3>
             <p class="win-text">Я всегда рядом, даже когда прячусь 💕</p>
@@ -131,7 +131,6 @@
             <button class="btn-primary" onclick="closeGame()">← Назад</button>
         </div>
 
-        <!-- ПРОИГРЫШ -->
         <div id="loseBlock" class="hidden">
             <h3>😢 Не нашла...</h3>
             <p class="lose-text">Но я всё равно тебя люблю! Вот где я был →</p>
@@ -140,12 +139,29 @@
             <button class="btn-secondary" onclick="closeGame()">← Назад</button>
         </div>
 
-        <!-- ДОЛГИ -->
         <div id="debtBlock" class="hidden">
             <h3>💆 Твои долги перед Светланой</h3>
             <p class="debt-big">Всего: <span id="totalDebt">0</span> × 10 минут массажа</p>
             <p class="debt-total">Итого: <b><span id="totalMinutes">0</span> минут</b> массажа 💕</p>
             <button class="btn-secondary" onclick="closeDebts()">← Назад</button>
+        </div>
+
+        <!-- ВИШЛИСТ -->
+        <div id="wishlistBlock" class="hidden">
+            <h3>💝 Мой вишлист</h3>
+            <p class="wish-hint">Напиши, что ты хочешь. Я всё увижу и исполню 💕</p>
+            
+            <div class="wish-input-group">
+                <input type="text" id="wishInput" placeholder="Например: серёжки с цветочком..." maxlength="200">
+                <button class="btn-primary" onclick="addWish()">➕ Добавить</button>
+            </div>
+
+            <div id="wishList" class="wish-list"></div>
+
+            <div class="wish-actions">
+                <button class="btn-primary" onclick="sendWishlist()">📤 Отправить всё мне</button>
+                <button class="btn-secondary" onclick="closeWishlist()">← Назад</button>
+            </div>
         </div>
 
     </div>
