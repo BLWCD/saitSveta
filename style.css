@@ -63,7 +63,7 @@ body {
     100% { bottom: 110vh; opacity: 0; transform: translateX(50px) rotate(360deg); }
 }
 
-/* ===== ПЛЕЕР ===== */
+/* ПЛЕЕР */
 .music-panel {
     position: fixed;
     top: 20px;
@@ -224,7 +224,7 @@ body {
     cursor: pointer;
 }
 
-/* ===== КОНТЕЙНЕР ===== */
+/* КОНТЕЙНЕР */
 .container {
     background: rgba(255, 255, 255, 0.25);
     backdrop-filter: blur(15px);
@@ -287,17 +287,17 @@ h1 {
 .counter-item span { font-size: 2rem; font-weight: bold; display: block; }
 .counter-item p { font-size: 0.85rem; margin-top: 5px; }
 
-/* ===== КНОПКИ ===== */
+/* КНОПКИ ГЛАВНОГО МЕНЮ */
 .surprise-btn {
     background: linear-gradient(135deg, #ffd93d, #ff9a3d);
     color: #fff;
     border: none;
-    padding: 15px 35px;
+    padding: 15px 30px;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     box-shadow: 0 10px 25px rgba(255, 154, 61, 0.5);
     transition: all 0.3s;
 }
@@ -308,12 +308,12 @@ h1 {
     background: linear-gradient(135deg, #6a11cb, #2575fc);
     color: #fff;
     border: none;
-    padding: 15px 35px;
+    padding: 15px 30px;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     margin-left: 10px;
     box-shadow: 0 10px 25px rgba(106, 17, 203, 0.5);
     transition: all 0.3s;
@@ -325,12 +325,12 @@ h1 {
     background: linear-gradient(135deg, #20c997, #0ca678);
     color: #fff;
     border: none;
-    padding: 15px 35px;
+    padding: 15px 30px;
     border-radius: 50px;
-    font-size: 1.1rem;
+    font-size: 1rem;
     cursor: pointer;
     font-weight: 700;
-    margin-bottom: 25px;
+    margin-bottom: 20px;
     margin-left: 10px;
     box-shadow: 0 10px 25px rgba(32, 201, 151, 0.5);
     transition: all 0.3s;
@@ -338,6 +338,24 @@ h1 {
 
 .debt-btn:hover { transform: translateY(-5px) scale(1.05); }
 
+.wish-btn {
+    background: linear-gradient(135deg, #f093fb, #f5576c);
+    color: #fff;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 700;
+    margin-bottom: 20px;
+    margin-left: 10px;
+    box-shadow: 0 10px 25px rgba(245, 87, 108, 0.5);
+    transition: all 0.3s;
+}
+
+.wish-btn:hover { transform: translateY(-5px) scale(1.05); }
+
+/* КАРТОЧКИ */
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -423,7 +441,7 @@ h1 {
 
 .back-btn:hover { background: rgba(255, 255, 255, 0.9); }
 
-#resultBlock, #surpriseBlock, #gameBlock, #winBlock, #loseBlock, #debtBlock {
+#resultBlock, #surpriseBlock, #gameBlock, #winBlock, #loseBlock, #debtBlock, #wishlistBlock {
     background: rgba(255, 240, 245, 0.95);
     border-radius: 20px;
     padding: 25px;
@@ -437,7 +455,7 @@ h1 {
     to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-#resultBlock h3, #surpriseBlock h3, #gameBlock h3, #winBlock h3, #loseBlock h3, #debtBlock h3 {
+#resultBlock h3, #surpriseBlock h3, #gameBlock h3, #winBlock h3, #loseBlock h3, #debtBlock h3, #wishlistBlock h3 {
     color: #d6336c;
     margin-bottom: 15px;
     font-size: 1.4rem;
@@ -527,34 +545,11 @@ textarea:focus {
     margin-top: 5px;
 }
 
-/* ===== ИГРА ===== */
-.game-hint {
-    color: #b02a56;
-    font-size: 1rem;
-    margin-bottom: 15px;
-    line-height: 1.5;
-}
-
-.game-attempts {
-    color: #d6336c;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.game-retry {
-    color: #ff6b00;
-    font-size: 0.95rem;
-    font-weight: 700;
-    margin-bottom: 10px;
-}
-
-.game-debt {
-    color: #0ca678;
-    font-size: 1.1rem;
-    font-weight: 700;
-    margin-bottom: 20px;
-}
+/* ИГРА */
+.game-hint { color: #b02a56; font-size: 1rem; margin-bottom: 15px; line-height: 1.5; }
+.game-attempts { color: #d6336c; font-size: 1.1rem; font-weight: 700; margin-bottom: 10px; }
+.game-retry { color: #ff6b00; font-size: 0.95rem; font-weight: 700; margin-bottom: 10px; }
+.game-debt { color: #0ca678; font-size: 1.1rem; font-weight: 700; margin-bottom: 20px; }
 
 .game-grid {
     display: grid;
@@ -590,11 +585,7 @@ textarea:focus {
     transform: scale(0.95);
 }
 
-.game-cell.opened:hover {
-    transform: scale(0.95);
-    border-color: transparent;
-    box-shadow: none;
-}
+.game-cell.opened:hover { transform: scale(0.95); border-color: transparent; box-shadow: none; }
 
 .game-cell.found {
     background: linear-gradient(135deg, #ffd93d, #ff9a3d);
@@ -607,11 +598,7 @@ textarea:focus {
     to { transform: scale(1.15); }
 }
 
-.win-text, .lose-text {
-    color: #b02a56;
-    font-size: 1.1rem;
-    margin-bottom: 20px;
-}
+.win-text, .lose-text { color: #b02a56; font-size: 1.1rem; margin-bottom: 20px; }
 
 .big-emoji {
     font-size: 6rem;
@@ -630,20 +617,107 @@ textarea:focus {
     line-height: 1.5;
 }
 
-#debtBlock .debt-big {
+#debtBlock .debt-big { color: #b02a56; font-size: 1.4rem; font-weight: 700; margin-bottom: 10px; }
+#debtBlock .debt-total { color: #0ca678; font-size: 1.2rem; margin-bottom: 25px; }
+
+/* ВИШЛИСТ */
+.wish-hint {
     color: #b02a56;
-    font-size: 1.4rem;
-    font-weight: 700;
-    margin-bottom: 10px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    line-height: 1.5;
 }
 
-#debtBlock .debt-total {
-    color: #0ca678;
-    font-size: 1.2rem;
-    margin-bottom: 25px;
+.wish-input-group {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
 }
 
-/* ===== ЧАСТИЦЫ ===== */
+#wishInput {
+    flex: 1;
+    min-width: 200px;
+    padding: 15px;
+    border-radius: 50px;
+    border: 2px solid #ffc2d1;
+    font-size: 1rem;
+    outline: none;
+    font-family: inherit;
+    transition: all 0.3s;
+}
+
+#wishInput:focus {
+    border-color: #d6336c;
+    box-shadow: 0 0 15px rgba(214, 51, 108, 0.3);
+}
+
+.wish-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 5px;
+}
+
+.wish-item {
+    background: #fff;
+    border-radius: 15px;
+    padding: 15px 50px 15px 20px;
+    text-align: left;
+    position: relative;
+    border-left: 5px solid #f5576c;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+    animation: slideUp 0.4s ease;
+    word-wrap: break-word;
+    color: #333;
+    font-size: 1rem;
+    line-height: 1.4;
+}
+
+.wish-delete {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ff4757;
+    color: white;
+    border: none;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+}
+
+.wish-delete:hover {
+    transform: translateY(-50%) scale(1.15) rotate(90deg);
+    background: #e63946;
+}
+
+.wish-empty {
+    color: #b02a56;
+    font-size: 1rem;
+    padding: 30px;
+    background: #fff5f8;
+    border-radius: 15px;
+    border: 2px dashed #ffc2d1;
+}
+
+.wish-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+/* ЧАСТИЦЫ */
 #particlesContainer {
     position: fixed;
     top: 0; left: 0;
@@ -713,7 +787,7 @@ textarea:focus {
     100% { width: 250vmax; height: 250vmax; opacity: 0; }
 }
 
-/* ===== ВРЕМЯ СУТОК ===== */
+/* ВРЕМЯ СУТОК */
 body.morning { background: linear-gradient(-45deg, #ffecd2, #fcb69f, #ff9a9e, #fecfef) !important; background-size: 400% 400% !important; }
 body.day { background: linear-gradient(-45deg, #a1c4fd, #c2e9fb, #fbc2eb, #a18cd1) !important; background-size: 400% 400% !important; }
 body.evening { background: linear-gradient(-45deg, #2c1a4d, #6b3fa0, #d6336c, #ff9a3d) !important; background-size: 400% 400% !important; }
@@ -786,10 +860,13 @@ body.night .track-title { color: #ff9a9e; }
 body.night .track-artist { color: #aaa; }
 body.night .game-cell { background: linear-gradient(135deg, rgba(60, 30, 90, 0.8), rgba(40, 20, 70, 0.8)); }
 body.night .game-cell:hover { border-color: #ff9a9e; }
-body.night #gameBlock, body.night #winBlock, body.night #loseBlock, body.night #debtBlock { background: rgba(30, 20, 50, 0.95); }
+body.night #gameBlock, body.night #winBlock, body.night #loseBlock, body.night #debtBlock, body.night #wishlistBlock { background: rgba(30, 20, 50, 0.95); }
 body.night .win-debt { background: rgba(30, 100, 80, 0.4); color: #6ee7b7; }
+body.night .wish-item { background: rgba(60, 40, 90, 0.8); color: #fff; }
+body.night #wishInput { background: rgba(60, 40, 90, 0.6); color: #fff; border-color: #ff9a9e; }
+body.night .wish-empty { background: rgba(60, 40, 90, 0.5); color: #ff9a9e; }
 
-/* ===== МОБИЛЬНАЯ ===== */
+/* МОБИЛЬНАЯ */
 @media (max-width: 600px) {
     h1 { font-size: 1.7rem; }
     .container { padding: 25px; margin-top: 130px; }
@@ -806,7 +883,9 @@ body.night .win-debt { background: rgba(30, 100, 80, 0.4); color: #6ee7b7; }
     .music-player { max-width: 100%; }
     #volumeSlider { width: 70px; }
     .moon { width: 60px; height: 60px; top: 40px; right: 30px; }
-    .surprise-btn, .game-btn, .debt-btn { display: block; width: 100%; margin-left: 0; margin-bottom: 12px; }
+    .surprise-btn, .game-btn, .debt-btn, .wish-btn { display: block; width: 100%; margin-left: 0; margin-bottom: 12px; }
     .game-grid { gap: 6px; }
     .game-cell { font-size: 1.5rem; border-radius: 10px; }
+    .wish-input-group { flex-direction: column; }
+    #wishInput { width: 100%; }
 }
