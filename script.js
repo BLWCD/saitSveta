@@ -3,7 +3,21 @@ let selectedOption = "";
 let selectedCategory = "";
 let musicPlaying = false;
 
-// ============ ДАТА ОТНОШЕНИЙ (13 января 2025) ============
+// ============ ИГРА ============
+let gameAttempts = 3;
+let vladPosition = 0;
+let gameCells = [];
+
+// 20 иконок для игры
+const gameIcons = [
+    "🐱", "🍕", "🎮", "🌸", "🍩",
+    "🎸", "🚀", "🍓", "🌈", "🦊",
+    "🐼", "🍔", "⚽", "🎨", "🍦",
+    "🌙", "🎁", "☕", "🎵", "🐻"
+];
+const VLAD_ICON = "🤴";
+
+// ============ ДАТА ОТНОШЕНИЙ ============
 const startDate = new Date(2025, 0, 13, 0, 0, 0);
 
 // ============ МЕНЮ ============
@@ -111,10 +125,10 @@ function changeVolume(delta) {
 // ============ КАТЕГОРИИ / ПОДМЕНЮ ============
 function showSubMenu(category) {
     selectedCategory = category;
-
     document.getElementById("categoriesBlock").classList.add("hidden");
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
+    document.getElementById("gameBlock").classList.add("hidden");
 
     const subMenuBlock = document.getElementById("subMenuBlock");
     subMenuBlock.classList.remove("hidden");
@@ -148,6 +162,7 @@ function backToCategories() {
     document.getElementById("subMenuBlock").classList.add("hidden");
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
+    document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
@@ -175,6 +190,7 @@ function cancelAll() {
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("subMenuBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
+    document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
     document.getElementById("comment").value = "";
     showToast("Выбор отменён 💕");
@@ -186,11 +202,12 @@ function showSurprise() {
     document.getElementById("categoriesBlock").classList.add("hidden");
     document.getElementById("subMenuBlock").classList.add("hidden");
     document.getElementById("resultBlock").classList.add("hidden");
+    document.getElementById("gameBlock").classList.add("hidden");
 
     const surpriseBlock = document.getElementById("surpriseBlock");
     surpriseBlock.classList.remove("hidden");
     document.getElementById("surpriseText").textContent = random;
-    fireConfetti();
+    fireSparkles();
 }
 
 function closeSurprise() {
@@ -198,27 +215,173 @@ function closeSurprise() {
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
-// ============ КОНФЕТТИ ============
-function fireConfetti() {
-    const end = Date.now() + 3000;
-    const colors = ['#d6336c', '#ff9a9e', '#fecfef', '#ffd93d', '#ff9a3d'];
+// ============ ИГРА "НАЙДИ ВЛАДА" ============
+function startGame() {
+    gameAttempts = 3;
+    vladPosition = Math.floor(Math.random() * 20);
 
-    (function frame() {
-        confetti({ particleCount: 5, angle: 60, spread: 55, origin: { x: 0 }, colors: colors });
-        confetti({ particleCount: 5, angle: 120, spread: 55, origin: { x: 1 }, colors: colors });
-        if (Date.now() < end) requestAnimationFrame(frame);
-    }());
+    document.getElementById("categoriesBlock").classList.add("hidden");
+    document.getElementById("subMenuBlock").classList.add("hidden");
+    document.getElementById("resultBlock").classList.add("hidden");
+    document.getElementById("surpriseBlock").classList.add("hidden");
+    document.getElementById("winBlock").classList.add("hidden");
+    document.getElementById("loseBlock").classList.add("hidden");
 
+    const gameBlock = document.getElementById("gameBlock");
+    gameBlock.classList.remove("hidden");
+    document.getElementById("attemptsLeft").textContent = "3";
+
+    buildGameGrid();
+
+    if (navigator.vibrate) navigator.vibrate(50);
+}
+
+function buildGameGrid() {
+    const grid = document.getElementById("gameGrid");
+    grid.innerHTML = "";
+
+    gameCells = [];
+
+    gameIcons.forEach((icon, index) => {
+        const cell = document.createElement("div");
+        cell.className = "game-cell";
+        cell.textContent = icon;
+        cell.dataset.index = index;
+        cell.onclick = () => clickCell(cell, index);
+        grid.appendChild(cell);
+        gameCells.push({ element: cell, icon: icon, clicked: false });
+    });
+}
+
+function clickCell(cell, index) {
+    if (cell.classList.contains("opened")) return;
+    if (cell.classList.contains("found")) return;
+
+    if (index === vladPosition) {
+        // Нашли Влада!
+        cell.textContent = VLAD_ICON;
+        cell.classList.add("found");
+        gameCells[index].clicked = true;
+        triggerWin();
+    } else {
+        // Не нашли
+        cell.classList.add("opened");
+        gameAttempts--;
+        document.getElementById("attemptsLeft").textContent = gameAttempts;
+        gameCells[index].clicked = true;
+
+        if (navigator.vibrate) navigator.vibrate(30);
+
+        if (gameAttempts <= 0) {
+            setTimeout(() => triggerLose(), 500);
+        }
+    }
+}
+
+function triggerWin() {
     setTimeout(() => {
-        confetti({
-            particleCount: 100,
-            spread: 100,
-            origin: { y: 0.6 },
-            colors: ['#ff0000', '#ff69b4', '#ff1493'],
-            shapes: ['circle'],
-            scalar: 1.5
-        });
-    }, 500);
+        document.getElementById("gameBlock").classList.add("hidden");
+        document.getElementById("winBlock").classList.remove("hidden");
+
+        // ТРИ ЭФФЕКТА
+        fireSparkles();
+        fireRainbowWave();
+        setTimeout(() => fireHeartParticles(), 300);
+
+        // В Telegram
+        const attemptsUsed = 3 - gameAttempts;
+        const message = `🎉 <b>Светлана нашла тебя!</b>\n\nПопыток использовано: ${attemptsUsed} из 3\nОна кликнула на позицию ${vladPosition + 1} 💕`;
+        sendToTelegram(message);
+
+        if (navigator.vibrate) navigator.vibrate([100, 50, 100, 50, 200]);
+    }, 400);
+}
+
+function triggerLose() {
+    document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("loseBlock").classList.remove("hidden");
+
+    // Показать где был Влад
+    const vladCell = gameCells[vladPosition].element;
+    vladCell.textContent = VLAD_ICON;
+    vladCell.classList.add("found");
+
+    // В Telegram
+    const message = `😢 <b>Светлана не нашла тебя</b>\n\nИспользовала все 3 попытки. Ты был на позиции ${vladPosition + 1}.`;
+    sendToTelegram(message);
+
+    if (navigator.vibrate) navigator.vibrate([200, 100, 200]);
+}
+
+function closeGame() {
+    document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("winBlock").classList.add("hidden");
+    document.getElementById("loseBlock").classList.add("hidden");
+    document.getElementById("categoriesBlock").classList.remove("hidden");
+}
+
+// ============ ЭФФЕКТ 1: ИСКРЫ ============
+function fireSparkles() {
+    const container = document.getElementById("particlesContainer");
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    for (let i = 0; i < 60; i++) {
+        const spark = document.createElement("div");
+        spark.className = "spark";
+        spark.style.left = centerX + "px";
+        spark.style.top = centerY + "px";
+
+        const angle = Math.random() * Math.PI * 2;
+        const distance = 100 + Math.random() * 400;
+        const tx = Math.cos(angle) * distance;
+        const ty = Math.sin(angle) * distance;
+
+        spark.style.setProperty("--tx", tx + "px");
+        spark.style.setProperty("--ty", ty + "px");
+
+        spark.style.animationDelay = (Math.random() * 0.3) + "s";
+
+        container.appendChild(spark);
+        setTimeout(() => spark.remove(), 2000);
+    }
+}
+
+// ============ ЭФФЕКТ 2: РАДУЖНАЯ ВОЛНА ============
+function fireRainbowWave() {
+    const wave = document.createElement("div");
+    wave.className = "rainbow-wave";
+    document.body.appendChild(wave);
+    setTimeout(() => wave.remove(), 2200);
+}
+
+// ============ ЭФФЕКТ 3: СЕРДЦЕ ИЗ ЧАСТИЦ ============
+function fireHeartParticles() {
+    const container = document.getElementById("particlesContainer");
+    const centerX = window.innerWidth / 2;
+    const centerY = window.innerHeight / 2;
+
+    // Формула сердца
+    for (let i = 0; i < 80; i++) {
+        const t = (i / 80) * Math.PI * 2;
+        const x = 16 * Math.pow(Math.sin(t), 3);
+        const y = -(13 * Math.cos(t) - 5 * Math.cos(2*t) - 2 * Math.cos(3*t) - Math.cos(4*t));
+
+        const scale = 12;
+        const targetX = x * scale;
+        const targetY = y * scale;
+
+        const particle = document.createElement("div");
+        particle.className = "heart-particle";
+        particle.style.left = centerX + "px";
+        particle.style.top = centerY + "px";
+        particle.style.setProperty("--tx", targetX + "px");
+        particle.style.setProperty("--ty", targetY + "px");
+        particle.style.animationDelay = (i * 0.02) + "s";
+
+        container.appendChild(particle);
+        setTimeout(() => particle.remove(), 3000);
+    }
 }
 
 // ============ ОТПРАВКА ============
@@ -229,25 +392,19 @@ function sendChoice() {
         return;
     }
 
-    // Формируем сообщение
     const message = 
-        `💕 Новый выбор!\n\n` +
+        `💕 <b>Новый выбор!</b>\n\n` +
         `📌 Категория: ${selectedCategory}\n` +
         `✅ Выбор: ${selectedOption}\n` +
         `💬 Комментарий: ${comment}`;
 
-    // Отправляем в Telegram через свой сервер
     sendToTelegram(message);
-
-    fireConfetti();
+    fireSparkles();
     showToast(`Отправлено: ${selectedCategory} → ${selectedOption} 💌`);
     document.getElementById("comment").value = "";
 }
 
-// ============ ОТПРАВКА В TELEGRAM (через сервер Vercel) ============
 function sendToTelegram(message) {
-    // Отправляем на свой сервер, а он перешлёт в Telegram
-    // Токен и Chat ID хранятся в настройках Vercel (безопасно)
     fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -295,7 +452,7 @@ function showToast(message) {
     }, 3000);
 }
 
-// ============ СМЕНА ФОНА ПО ВРЕМЕНИ СУТОК ============
+// ============ СМЕНА ФОНА ============
 function updateBackground() {
     const hour = new Date().getHours();
     const body = document.getElementById("mainBody");
@@ -303,20 +460,15 @@ function updateBackground() {
 
     body.classList.remove("morning", "day", "evening", "night");
 
-    if (hour >= 6 && hour < 12) {
-        body.classList.add("morning");
-    } else if (hour >= 12 && hour < 18) {
-        body.classList.add("day");
-    } else if (hour >= 18 && hour < 22) {
-        body.classList.add("evening");
-    } else {
+    if (hour >= 6 && hour < 12) body.classList.add("morning");
+    else if (hour >= 12 && hour < 18) body.classList.add("day");
+    else if (hour >= 18 && hour < 22) body.classList.add("evening");
+    else {
         body.classList.add("night");
         if (nightSky) nightSky.classList.remove("hidden");
     }
 
-    if (nightSky && hour >= 6 && hour < 22) {
-        nightSky.classList.add("hidden");
-    }
+    if (nightSky && hour >= 6 && hour < 22) nightSky.classList.add("hidden");
 }
 
 updateBackground();
