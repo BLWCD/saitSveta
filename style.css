@@ -287,7 +287,7 @@ h1 {
 .counter-item span { font-size: 2rem; font-weight: bold; display: block; }
 .counter-item p { font-size: 0.85rem; margin-top: 5px; }
 
-/* КНОПКИ ГЛАВНОГО МЕНЮ */
+/* КНОПКИ */
 .surprise-btn {
     background: linear-gradient(135deg, #ffd93d, #ff9a3d);
     color: #fff;
@@ -355,7 +355,6 @@ h1 {
 
 .wish-btn:hover { transform: translateY(-5px) scale(1.05); }
 
-/* КАРТОЧКИ */
 .cards {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
@@ -628,6 +627,52 @@ textarea:focus {
     line-height: 1.5;
 }
 
+.wish-who {
+    background: #fff5f8;
+    padding: 15px;
+    border-radius: 15px;
+    margin-bottom: 20px;
+}
+
+.wish-who-label {
+    color: #b02a56;
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.wish-who-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.who-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #888;
+    border: 2px solid #ffc2d1;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-size: 1rem;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.who-btn:hover {
+    background: #ffc2d1;
+    color: #fff;
+    transform: translateY(-2px);
+}
+
+.who-btn.active {
+    background: linear-gradient(135deg, #d6336c, #b02a56);
+    color: #fff;
+    border-color: #d6336c;
+    box-shadow: 0 8px 20px rgba(214, 51, 108, 0.4);
+}
+
 .wish-input-group {
     display: flex;
     gap: 10px;
@@ -652,6 +697,38 @@ textarea:focus {
     box-shadow: 0 0 15px rgba(214, 51, 108, 0.3);
 }
 
+.wish-filter {
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.filter-btn {
+    background: rgba(255, 255, 255, 0.9);
+    color: #888;
+    border: 2px solid #ffc2d1;
+    padding: 8px 18px;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s;
+}
+
+.filter-btn:hover {
+    background: #ffc2d1;
+    color: #fff;
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #f5576c, #f093fb);
+    color: #fff;
+    border-color: #f5576c;
+    box-shadow: 0 5px 15px rgba(245, 87, 108, 0.4);
+}
+
 .wish-list {
     display: flex;
     flex-direction: column;
@@ -668,13 +745,49 @@ textarea:focus {
     padding: 15px 50px 15px 20px;
     text-align: left;
     position: relative;
-    border-left: 5px solid #f5576c;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
     animation: slideUp 0.4s ease;
     word-wrap: break-word;
     color: #333;
     font-size: 1rem;
     line-height: 1.4;
+    border-left: 5px solid #f5576c;
+}
+
+.wish-item.vlad {
+    border-left-color: #2575fc;
+    background: linear-gradient(to right, #e8f0ff, #fff);
+}
+
+.wish-item.sveta {
+    border-left-color: #f5576c;
+    background: linear-gradient(to right, #ffe8f0, #fff);
+}
+
+.wish-author {
+    display: inline-block;
+    font-size: 0.75rem;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 50px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.wish-author.vlad {
+    background: #2575fc;
+    color: #fff;
+}
+
+.wish-author.sveta {
+    background: #f5576c;
+    color: #fff;
+}
+
+.wish-text {
+    display: block;
+    color: #333;
 }
 
 .wish-delete {
@@ -863,8 +976,13 @@ body.night .game-cell:hover { border-color: #ff9a9e; }
 body.night #gameBlock, body.night #winBlock, body.night #loseBlock, body.night #debtBlock, body.night #wishlistBlock { background: rgba(30, 20, 50, 0.95); }
 body.night .win-debt { background: rgba(30, 100, 80, 0.4); color: #6ee7b7; }
 body.night .wish-item { background: rgba(60, 40, 90, 0.8); color: #fff; }
+body.night .wish-item.vlad { background: linear-gradient(to right, rgba(30, 60, 120, 0.8), rgba(40, 30, 70, 0.8)); }
+body.night .wish-item.sveta { background: linear-gradient(to right, rgba(120, 30, 80, 0.8), rgba(40, 30, 70, 0.8)); }
+body.night .wish-text { color: #fff; }
 body.night #wishInput { background: rgba(60, 40, 90, 0.6); color: #fff; border-color: #ff9a9e; }
 body.night .wish-empty { background: rgba(60, 40, 90, 0.5); color: #ff9a9e; }
+body.night .wish-who { background: rgba(60, 40, 90, 0.5); }
+body.night .who-btn { background: rgba(40, 30, 70, 0.8); color: #ccc; }
 
 /* МОБИЛЬНАЯ */
 @media (max-width: 600px) {
@@ -888,4 +1006,5 @@ body.night .wish-empty { background: rgba(60, 40, 90, 0.5); color: #ff9a9e; }
     .game-cell { font-size: 1.5rem; border-radius: 10px; }
     .wish-input-group { flex-direction: column; }
     #wishInput { width: 100%; }
+    .who-btn { font-size: 0.9rem; padding: 10px 18px; }
 }
