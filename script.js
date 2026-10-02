@@ -46,6 +46,7 @@ function showDebts() {
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
 
     const count = getDebts();
     document.getElementById("totalDebt").textContent = count;
@@ -57,6 +58,121 @@ function showDebts() {
 function closeDebts() {
     document.getElementById("debtBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
+}
+
+// ============ ВИШЛИСТ ============
+function getWishes() {
+    const saved = localStorage.getItem("svetaWishes");
+    return saved ? JSON.parse(saved) : [];
+}
+
+function saveWishes(wishes) {
+    localStorage.setItem("svetaWishes", JSON.stringify(wishes));
+}
+
+function showWishlist() {
+    document.getElementById("categoriesBlock").classList.add("hidden");
+    document.getElementById("subMenuBlock").classList.add("hidden");
+    document.getElementById("resultBlock").classList.add("hidden");
+    document.getElementById("surpriseBlock").classList.add("hidden");
+    document.getElementById("gameBlock").classList.add("hidden");
+    document.getElementById("debtBlock").classList.add("hidden");
+
+    renderWishes();
+    document.getElementById("wishlistBlock").classList.remove("hidden");
+}
+
+function closeWishlist() {
+    document.getElementById("wishlistBlock").classList.add("hidden");
+    document.getElementById("categoriesBlock").classList.remove("hidden");
+}
+
+function renderWishes() {
+    const wishes = getWishes();
+    const list = document.getElementById("wishList");
+    list.innerHTML = "";
+
+    if (wishes.length === 0) {
+        list.innerHTML = `<div class="wish-empty">Пока пусто. Добавь своё первое желание 💕</div>`;
+        return;
+    }
+
+    wishes.forEach((wish, index) => {
+        const div = document.createElement("div");
+        div.className = "wish-item";
+        div.innerHTML = `
+            <span>${escapeHtml(wish)}</span>
+            <button class="wish-delete" onclick="deleteWish(${index})" title="Удалить">✕</button>
+        `;
+        list.appendChild(div);
+    });
+}
+
+function addWish() {
+    const input = document.getElementById("wishInput");
+    const text = input.value.trim();
+
+    if (text === "") {
+        showToast("Напиши, что ты хочешь 💕");
+        return;
+    }
+
+    const wishes = getWishes();
+    wishes.push(text);
+    saveWishes(wishes);
+    input.value = "";
+    renderWishes();
+
+    // Уведомление в Telegram о новом желании
+    const message = 
+        `💝 <b>Светлана добавила желание в вишлист!</b>\n\n` +
+        `📝 ${text}\n\n` +
+        `Всего в вишлисте: ${wishes.length}`;
+
+    sendToTelegram(message);
+
+    fireSparkles();
+    showToast("Желание добавлено 💕");
+
+    if (navigator.vibrate) navigator.vibrate(30);
+}
+
+function deleteWish(index) {
+    const wishes = getWishes();
+    const removed = wishes[index];
+    wishes.splice(index, 1);
+    saveWishes(wishes);
+    renderWishes();
+
+    showToast("Удалено");
+    if (navigator.vibrate) navigator.vibrate(20);
+}
+
+function sendWishlist() {
+    const wishes = getWishes();
+
+    if (wishes.length === 0) {
+        showToast("Список пуст — нечего отправлять");
+        return;
+    }
+
+    let listText = wishes.map((w, i) => `${i + 1}. ${w}`).join("\n");
+
+    const message = 
+        `💝 <b>Вишлист Светланы</b>\n\n` +
+        `${listText}\n\n` +
+        `📊 Всего желаний: <b>${wishes.length}</b>`;
+
+    sendToTelegram(message);
+    fireSparkles();
+    showToast("Отправлено тебе в Telegram 💌");
+}
+
+// Экранирование HTML (чтобы пользователь не мог вставить тег)
+function escapeHtml(text) {
+    const div = document.createElement("div");
+    div.textContent = text;
+    return div.innerHTML;
 }
 
 // ============ ДАТА ============
@@ -173,6 +289,7 @@ function showSubMenu(category) {
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
 
     const subMenuBlock = document.getElementById("subMenuBlock");
     subMenuBlock.classList.remove("hidden");
@@ -208,6 +325,7 @@ function backToCategories() {
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
@@ -237,6 +355,7 @@ function cancelAll() {
     document.getElementById("surpriseBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
     document.getElementById("comment").value = "";
     showToast("Выбор отменён 💕");
@@ -250,6 +369,7 @@ function showSurprise() {
     document.getElementById("resultBlock").classList.add("hidden");
     document.getElementById("gameBlock").classList.add("hidden");
     document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
 
     const surpriseBlock = document.getElementById("surpriseBlock");
     surpriseBlock.classList.remove("hidden");
@@ -287,6 +407,7 @@ function initGame() {
     document.getElementById("winBlock").classList.add("hidden");
     document.getElementById("loseBlock").classList.add("hidden");
     document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
 
     const gameBlock = document.getElementById("gameBlock");
     gameBlock.classList.remove("hidden");
@@ -422,6 +543,7 @@ function closeGame() {
     document.getElementById("winBlock").classList.add("hidden");
     document.getElementById("loseBlock").classList.add("hidden");
     document.getElementById("debtBlock").classList.add("hidden");
+    document.getElementById("wishlistBlock").classList.add("hidden");
     document.getElementById("categoriesBlock").classList.remove("hidden");
 }
 
