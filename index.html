@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Для тебя ❤️</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+</head>
+<body id="mainBody">
+
+    <!-- Звёздное небо (появляется ночью) -->
+    <div id="nightSky" class="night-sky hidden">
+        <div class="moon"></div>
+        <div class="stars"></div>
+    </div>
+
+    <div class="hearts">
+        <span>❤️</span><span>💕</span><span>💖</span><span>💗</span><span>💓</span>
+        <span>❤️</span><span>💕</span><span>💖</span><span>💗</span><span>💓</span>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="music.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="music-panel">
+        <div class="music-player">
+            <div class="album-cover"><div class="vinyl"></div></div>
+            <div class="track-info">
+                <div class="track-title"><span class="marquee">Markul — Первый раз</span></div>
+                <div class="track-artist">специально для тебя 💕</div>
+                <div class="visualizer">
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+            <button id="musicBtn" class="play-btn" onclick="toggleMusic()">▶</button>
+        </div>
+        <div class="volume-control">
+            <button class="vol-btn" onclick="changeVolume(-0.1)">🔉</button>
+            <input type="range" id="volumeSlider" min="0" max="1" step="0.01" value="0.5" oninput="setVolume(this.value)">
+            <button class="vol-btn" onclick="changeVolume(0.1)">🔊</button>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <h1>Привет, <span id="herName">Светлана Васильевна</span>! 💕</h1>
+        <p class="subtitle">Чем займемся сегодня?</p>
+
+        <div id="loveCounter" class="love-counter">
+            <h3>Мы вместе уже:</h3>
+            <div class="counter-grid">
+                <div class="counter-item"><span id="daysCount">0</span><p>дней</p></div>
+                <div class="counter-item"><span id="hoursCount">0</span><p>часов</p></div>
+                <div class="counter-item"><span id="minutesCount">0</span><p>минут</p></div>
+                <div class="counter-item"><span id="secondsCount">0</span><p>секунд</p></div>
+            </div>
+        </div>
+
+        <button class="surprise-btn" onclick="showSurprise()">🎁 Хочу сюрприз!</button>
+
+        <div id="categoriesBlock">
+            <div class="cards">
+                <div class="card" onclick="showSubMenu('Посмотреть')" style="--delay: 0.1s">
+                    <div class="icon">🎬</div>
+                    <h2>Посмотреть</h2>
+                    <p>Фильм или сериал</p>
+                </div>
+                <div class="card" onclick="showSubMenu('Заказать')" style="--delay: 0.2s">
+                    <div class="icon">🍕</div>
+                    <h2>Заказать</h2>
+                    <p>Пицца или роллы</p>
+                </div>
+                <div class="card" onclick="showSubMenu('Погулять')" style="--delay: 0.3s">
+                    <div class="icon">🚶‍♀️</div>
+                    <h2>Погулять</h2>
+                    <p>Куда-нибудь сходить</p>
+                </div>
+                <div class="card" onclick="showSubMenu('Покататься')" style="--delay: 0.4s">
+                    <div class="icon">🚗</div>
+                    <h2>Покататься</h2>
+                    <p>Просто покататься</p>
+                </div>
+            </div>
+        </div>
+
+        <div id="subMenuBlock" class="hidden">
+            <button class="back-btn" onclick="backToCategories()">← Назад к выбору</button>
+            <h3 id="subMenuTitle">Выбери вариант:</h3>
+            <div id="subMenuList" class="sub-menu-list"></div>
+        </div>
+
+        <div id="resultBlock" class="hidden">
+            <h3>Ты выбрала: <span id="chosenOption"></span></h3>
+            <textarea id="comment" placeholder="Напиши, что именно хочешь..."></textarea>
+            <div class="action-buttons">
+                <button class="btn-secondary" onclick="changeChoice()">← Изменить выбор</button>
+                <button class="btn-primary" onclick="sendChoice()">Отправить 💌</button>
+            </div>
+            <button class="btn-cancel" onclick="cancelAll()">✕ Отменить всё</button>
+        </div>
+
+        <div id="surpriseBlock" class="hidden">
+            <h3>🎁 Твой сюрприз:</h3>
+            <p id="surpriseText"></p>
+            <button class="btn-secondary" onclick="closeSurprise()">← Назад</button>
+        </div>
+
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
