@@ -1,92 +1,36 @@
 // ============ ДАННЫЕ ============
 
-// Загородные дома
 const houses = [
-    {
-        id: "house1",
-        emoji: "🏠",
-        name: "У Владислава",
-        desc: "Уютный дом, мангал, места много"
-    },
-    {
-        id: "house2",
-        emoji: "🏡",
-        name: "У друга",
-        desc: "Большой дом с баней во дворе"
-    },
-    {
-        id: "house3",
-        emoji: "🏘️",
-        name: "Снять загородный",
-        desc: "Аренда дома на сутки, всё своё"
-    }
+    { id: "house1", emoji: "🏠", name: "У Владислава", desc: "Уютный дом, мангал, места много" },
+    { id: "house2", emoji: "🏡", name: "У друга", desc: "Большой дом с баней во дворе" },
+    { id: "house3", emoji: "🏘️", name: "Снять загородный", desc: "Аренда дома на сутки, всё своё" }
 ];
 
-// Кальянные
 const hookahs = [
-    {
-        id: "hookah1",
-        emoji: "💨",
-        name: "Cloud Hookah",
-        desc: "Топовая кальянка в центре"
-    },
-    {
-        id: "hookah2",
-        emoji: "🌫️",
-        name: "Hookah Place",
-        desc: "Уютная, много вкусов"
-    },
-    {
-        id: "hookah3",
-        emoji: "💨",
-        name: "Smoke House",
-        desc: "Своя атмосфера, кальян-мастера"
-    }
+    { id: "hookah1", emoji: "💨", name: "Cloud Hookah", desc: "Топовая кальянка в центре" },
+    { id: "hookah2", emoji: "🌫️", name: "Hookah Place", desc: "Уютная, много вкусов" },
+    { id: "hookah3", emoji: "💨", name: "Smoke House", desc: "Своя атмосфера, кальян-мастера" }
 ];
 
-// Сауны
 const saunas = [
-    {
-        id: "sauna1",
-        emoji: "🧖",
-        name: "Русские бани",
-        desc: "Настоящая русская баня с вениками"
-    },
-    {
-        id: "sauna2",
-        emoji: "🔥",
-        name: "Финская сауна",
-        desc: "Сухой пар, бассейн"
-    },
-    {
-        id: "sauna3",
-        emoji: "💦",
-        name: "Хамам",
-        desc: "Турецкая баня, расслабон"
-    }
+    { id: "sauna1", emoji: "🧖", name: "Русские бани", desc: "Настоящая русская баня с вениками" },
+    { id: "sauna2", emoji: "🔥", name: "Финская сауна", desc: "Сухой пар, бассейн" },
+    { id: "sauna3", emoji: "💦", name: "Хамам", desc: "Турецкая баня, расслабон" }
 ];
 
-// ЧЁРНЫЙ СПИСОК
 const blacklist = [
     {
         name: "Лучший друг (заглушка)",
         reason: "Опоздал на мою днюху в прошлом году на 2 часа",
         blocked: "Заблокирован до 11.10.2026"
     }
-    // Добавляй сюда новых по аналогии:
-    // {
-    //     name: "Максим",
-    //     reason: "Уснул на столе в прошлый раз",
-    //     blocked: "Заблокирован пожизненно"
-    // }
 ];
 
 // ============ СОСТОЯНИЕ ============
-let selectedHouse = null;
-let selectedHookah = null;
-let selectedSauna = null;
+// Выбрано может быть ТОЛЬКО ОДНО место
+let selectedPlace = null; // { type: "house"|"hookah"|"sauna", id: "..." }
 
-// ============ ЧАСТИЦЫ ============
+// ============ ЧАСТИЦЫ (серебристые) ============
 const canvas = document.getElementById("particles");
 const ctx = canvas.getContext("2d");
 
@@ -99,17 +43,17 @@ window.addEventListener("resize", () => {
 });
 
 const particles = [];
-const PARTICLE_COUNT = 80;
+const PARTICLE_COUNT = 70;
 
 for (let i = 0; i < PARTICLE_COUNT; i++) {
     particles.push({
         x: Math.random() * canvas.width,
         y: Math.random() * canvas.height,
-        radius: Math.random() * 2 + 0.5,
-        speedX: (Math.random() - 0.5) * 0.5,
-        speedY: (Math.random() - 0.5) * 0.5,
-        opacity: Math.random() * 0.7 + 0.1,
-        color: Math.random() > 0.5 ? "#b026ff" : "#ff0080"
+        radius: Math.random() * 1.5 + 0.3,
+        speedX: (Math.random() - 0.5) * 0.3,
+        speedY: (Math.random() - 0.5) * 0.3,
+        opacity: Math.random() * 0.6 + 0.1,
+        color: Math.random() > 0.5 ? "#cccccc" : "#888888"
     });
 }
 
@@ -117,20 +61,17 @@ function animateParticles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     particles.forEach((p, i) => {
-        // Движение
         p.x += p.speedX;
         p.y += p.speedY;
 
-        // Отскок от краёв
         if (p.x < 0 || p.x > canvas.width) p.speedX *= -1;
         if (p.y < 0 || p.y > canvas.height) p.speedY *= -1;
 
-        // Рисуем
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
         ctx.fillStyle = p.color;
         ctx.globalAlpha = p.opacity;
-        ctx.shadowBlur = 15;
+        ctx.shadowBlur = 12;
         ctx.shadowColor = p.color;
         ctx.fill();
         ctx.globalAlpha = 1;
@@ -143,9 +84,9 @@ function animateParticles() {
             const dy = p.y - p2.y;
             const distance = Math.sqrt(dx * dx + dy * dy);
 
-            if (distance < 120) {
+            if (distance < 130) {
                 ctx.beginPath();
-                ctx.strokeStyle = `rgba(176, 38, 255, ${0.15 * (1 - distance / 120)})`;
+                ctx.strokeStyle = `rgba(200, 200, 200, ${0.08 * (1 - distance / 130)})`;
                 ctx.lineWidth = 0.5;
                 ctx.moveTo(p.x, p.y);
                 ctx.lineTo(p2.x, p2.y);
@@ -168,6 +109,7 @@ function renderOptions(containerId, items, type) {
         const card = document.createElement("div");
         card.className = "option-card";
         card.dataset.id = item.id;
+        card.dataset.type = type;
         card.onclick = () => selectOption(type, item.id, card);
 
         card.innerHTML = `
@@ -180,24 +122,62 @@ function renderOptions(containerId, items, type) {
     });
 }
 
-// ============ ВЫБОР ============
+// ============ ВЫБОР (только одно место) ============
 function selectOption(type, id, card) {
-    // Снимаем выделение с других в этой категории
-    const category = card.parentElement;
-    category.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
+    // Если кликнули на уже выбранную — снимаем выбор
+    if (card.classList.contains("selected")) {
+        card.classList.remove("selected");
+        selectedPlace = null;
+        updateSelectedInfo();
+        if (navigator.vibrate) navigator.vibrate(20);
+        return;
+    }
 
-    // Выделяем выбранное
+    // Снимаем выделение со ВСЕХ карточек на странице
+    document.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
+
+    // Выделяем выбранную
     card.classList.add("selected");
 
     // Запоминаем
-    if (type === "house") selectedHouse = id;
-    if (type === "hookah") selectedHookah = id;
-    if (type === "sauna") selectedSauna = id;
+    selectedPlace = { type: type, id: id };
+
+    updateSelectedInfo();
 
     if (navigator.vibrate) navigator.vibrate(30);
 }
 
-// ============ РЕНДЕР ЧЁРНОГО СПИСКА ============
+// ============ ИНФО О ВЫБОРЕ ============
+function updateSelectedInfo() {
+    const info = document.getElementById("selectedInfo");
+    const p = info.querySelector("p");
+
+    if (!selectedPlace) {
+        info.classList.remove("active");
+        p.textContent = "Ничего не выбрано";
+        return;
+    }
+
+    let name = "";
+    if (selectedPlace.type === "house") {
+        name = houses.find(h => h.id === selectedPlace.id).name;
+    } else if (selectedPlace.type === "hookah") {
+        name = hookahs.find(h => h.id === selectedPlace.id).name;
+    } else if (selectedPlace.type === "sauna") {
+        name = saunas.find(s => s.id === selectedPlace.id).name;
+    }
+
+    const typeLabel = {
+        "house": "🏠 Дом",
+        "hookah": "💨 Кальянная",
+        "sauna": "🧖 Сауна"
+    }[selectedPlace.type];
+
+    info.classList.add("active");
+    p.textContent = `Выбрано: ${typeLabel} — ${name}`;
+}
+
+// ============ ЧЁРНЫЙ СПИСОК ============
 function renderBlacklist() {
     const container = document.getElementById("blacklistContainer");
     container.innerHTML = "";
@@ -208,7 +188,7 @@ function renderBlacklist() {
         div.innerHTML = `
             <div class="blacklist-name">${item.name}</div>
             <div class="blacklist-reason">${item.reason}</div>
-            <div class="blacklist-blocked">🔒 ${item.blocked}</div>
+            <div class="blacklist-blocked">${item.blocked}</div>
         `;
         container.appendChild(div);
     });
@@ -219,58 +199,49 @@ function vote() {
     const nameInput = document.getElementById("voterName");
     const name = nameInput.value.trim();
 
-    // Проверки
     if (name === "") {
-        showToast("Введи своё имя 😊");
+        showToast("Введи своё имя");
         nameInput.focus();
         return;
     }
 
-    if (!selectedHouse) {
-        showToast("Выбери загородный дом 🏠");
+    if (!selectedPlace) {
+        showToast("Выбери одно место");
         return;
     }
 
-    if (!selectedHookah) {
-        showToast("Выбери кальянную 💨");
-        return;
+    // Получаем название
+    let placeName = "";
+    let typeLabel = "";
+
+    if (selectedPlace.type === "house") {
+        placeName = houses.find(h => h.id === selectedPlace.id).name;
+        typeLabel = "🏠 Загородный дом";
+    } else if (selectedPlace.type === "hookah") {
+        placeName = hookahs.find(h => h.id === selectedPlace.id).name;
+        typeLabel = "💨 Кальянная";
+    } else if (selectedPlace.type === "sauna") {
+        placeName = saunas.find(s => s.id === selectedPlace.id).name;
+        typeLabel = "🧖 Сауна";
     }
 
-    if (!selectedSauna) {
-        showToast("Выбери сауну 🧖");
-        return;
-    }
-
-    // Получаем названия
-    const houseName = houses.find(h => h.id === selectedHouse).name;
-    const hookahName = hookahs.find(h => h.id === selectedHookah).name;
-    const saunaName = saunas.find(s => s.id === selectedSauna).name;
-
-    // Формируем сообщение
     const message = 
-        `🎉 <b>Новый голос за место днюхи!</b>\n\n` +
+        `🎉 <b>Новый голос — Один вечер, одна ночь</b>\n\n` +
         `👤 Кто: <b>${name}</b>\n\n` +
-        `🏠 Дом: <b>${houseName}</b>\n` +
-        `💨 Кальянная: <b>${hookahName}</b>\n` +
-        `🧖 Сауна: <b>${saunaName}</b>\n\n` +
-        `📅 Голос от ${new Date().toLocaleString("ru-RU")}`;
+        `${typeLabel}: <b>${placeName}</b>\n\n` +
+        `📅 ${new Date().toLocaleString("ru-RU")}`;
 
     sendToTelegram(message);
 
-    showToast(`Спасибо, ${name}! Голос учтён 🎉`);
+    showToast(`Спасибо, ${name}! Голос учтён`);
 
-    // Сброс (чтобы не голосовали дважды)
+    // Сброс через 2 секунды
     setTimeout(() => {
-        if (confirm("Хочешь проголосовать ещё раз? (Например, за другого друга)")) {
-            // Оставляем как есть
-        } else {
-            nameInput.value = "";
-            document.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
-            selectedHouse = null;
-            selectedHookah = null;
-            selectedSauna = null;
-        }
-    }, 500);
+        nameInput.value = "";
+        document.querySelectorAll(".option-card").forEach(c => c.classList.remove("selected"));
+        selectedPlace = null;
+        updateSelectedInfo();
+    }, 2000);
 }
 
 // ============ ОТПРАВКА В TELEGRAM ============
@@ -283,19 +254,18 @@ function sendToTelegram(message) {
     .then(response => response.json())
     .then(data => {
         if (data.ok) {
-            console.log("✅ Отправлено в Telegram");
+            console.log("Отправлено в Telegram");
         } else {
-            console.error("❌ Ошибка:", data.error);
+            console.error("Ошибка:", data.error);
         }
     })
     .catch(error => {
-        console.error("❌ Ошибка отправки:", error);
+        console.error("Ошибка отправки:", error);
     });
 }
 
 // ============ УВЕДОМЛЕНИЕ ============
 function showToast(text) {
-    // Убираем старое
     const oldToast = document.querySelector(".toast");
     if (oldToast) oldToast.remove();
 
@@ -317,4 +287,5 @@ window.addEventListener("load", () => {
     renderOptions("hookahOptions", hookahs, "hookah");
     renderOptions("saunaOptions", saunas, "sauna");
     renderBlacklist();
+    updateSelectedInfo();
 });
