@@ -3,28 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>11.10.2006 — Днюха Владислава 🎉</title>
+    <title>Один вечер — одна ночь</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- Частицы на фоне -->
     <canvas id="particles"></canvas>
 
-    <!-- Заголовок -->
     <header class="hero">
         <div class="hero-content">
-            <p class="hero-date">11.10.2006</p>
-            <h1 class="hero-title">Днюха Владислава</h1>
-            <p class="hero-subtitle">Помоги выбрать, где будем отмечать 🎉</p>
+            <p class="hero-date">11 · 10</p>
+            <h1 class="hero-title">Один вечер<br><span class="title-accent">одна ночь</span></h1>
+            <p class="hero-subtitle">Выбери одно место. Только одно.</p>
         </div>
     </header>
 
-    <!-- Голосование -->
     <section class="voting-section">
         <div class="container">
 
-            <!-- Имя -->
             <div class="name-block">
                 <label for="voterName">Как тебя зовут?</label>
                 <input type="text" id="voterName" placeholder="Введи своё имя..." maxlength="50">
@@ -57,23 +53,25 @@
                 <div class="options-grid" id="saunaOptions"></div>
             </div>
 
-            <!-- Кнопка -->
-            <button class="vote-btn" onclick="vote()">🎉 Проголосовать</button>
+            <div class="selected-info" id="selectedInfo">
+                <p>Ничего не выбрано</p>
+            </div>
+
+            <button class="vote-btn" onclick="vote()">Проголосовать</button>
 
         </div>
     </section>
 
-    <!-- ЧЁРНЫЙ СПИСОК -->
     <section class="blacklist-section">
         <div class="container">
-            <h2 class="blacklist-title">🚫 ЧЁРНЫЙ СПИСОК</h2>
+            <h2 class="blacklist-title">Чёрный список</h2>
             <p class="blacklist-subtitle">Этим людям вход воспрещён (шутка, но не совсем)</p>
             <div class="blacklist" id="blacklistContainer"></div>
         </div>
     </section>
 
     <footer class="footer">
-        <p>Сделано с ❤️ специально для днюхи</p>
+        <p>11.10 — один вечер, одна ночь</p>
     </footer>
 
     <script src="script.js"></script>
