@@ -6,8 +6,8 @@
 }
 
 body {
-    background: #0a0a0a;
-    color: #fff;
+    background: #050505;
+    color: #e0e0e0;
     min-height: 100vh;
     overflow-x: hidden;
     position: relative;
@@ -28,12 +28,12 @@ body {
 .hero {
     position: relative;
     z-index: 1;
-    min-height: 60vh;
+    min-height: 70vh;
     display: flex;
     justify-content: center;
     align-items: center;
     text-align: center;
-    padding: 40px 20px;
+    padding: 60px 20px;
 }
 
 .hero-content {
@@ -41,43 +41,57 @@ body {
 }
 
 @keyframes heroAppear {
-    from { opacity: 0; transform: translateY(40px); }
+    from { opacity: 0; transform: translateY(50px); }
     to { opacity: 1; transform: translateY(0); }
 }
 
 .hero-date {
-    color: #b026ff;
-    font-size: 1.2rem;
-    letter-spacing: 8px;
-    margin-bottom: 15px;
+    color: #666;
+    font-size: 1rem;
+    letter-spacing: 15px;
+    margin-bottom: 25px;
     text-transform: uppercase;
-    font-weight: 700;
-    text-shadow: 0 0 20px #b026ff;
+    font-weight: 300;
 }
 
 .hero-title {
-    font-size: 4.5rem;
+    font-size: 5.5rem;
     font-weight: 900;
-    background: linear-gradient(135deg, #b026ff, #ff0080, #ffd700);
+    line-height: 1;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #ffffff 0%, #888888 25%, #ffffff 50%, #555555 75%, #ffffff 100%);
+    background-size: 300% 300%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    background-size: 200% 200%;
-    animation: gradientText 5s ease infinite;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+    animation: silverShine 6s ease infinite;
+    text-shadow: 0 0 60px rgba(200, 200, 200, 0.3);
 }
 
-@keyframes gradientText {
+.title-accent {
+    display: block;
+    font-size: 3.5rem;
+    font-weight: 200;
+    letter-spacing: 20px;
+    color: #888;
+    -webkit-text-fill-color: #888;
+    background: none;
+    margin-top: 15px;
+}
+
+@keyframes silverShine {
     0%, 100% { background-position: 0% 50%; }
     50% { background-position: 100% 50%; }
 }
 
 .hero-subtitle {
-    color: #aaa;
-    font-size: 1.3rem;
-    letter-spacing: 1px;
+    color: #666;
+    font-size: 1.1rem;
+    letter-spacing: 3px;
+    font-weight: 300;
+    text-transform: uppercase;
 }
 
 /* Контейнер */
@@ -95,64 +109,70 @@ body {
 }
 
 .name-block {
-    margin-bottom: 50px;
+    margin-bottom: 60px;
     text-align: center;
 }
 
 .name-block label {
     display: block;
-    color: #b026ff;
-    font-size: 1.1rem;
+    color: #888;
+    font-size: 0.9rem;
     margin-bottom: 15px;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    font-weight: 700;
+    font-weight: 300;
 }
 
 .name-block input {
     width: 100%;
     max-width: 400px;
     padding: 18px 25px;
-    background: #111;
-    border: 2px solid #222;
-    border-radius: 15px;
+    background: #0f0f0f;
+    border: 1px solid #2a2a2a;
+    border-radius: 5px;
     color: #fff;
-    font-size: 1.1rem;
+    font-size: 1.05rem;
     outline: none;
-    transition: all 0.3s;
+    transition: all 0.4s;
     text-align: center;
     font-family: inherit;
+    letter-spacing: 1px;
 }
 
 .name-block input:focus {
-    border-color: #b026ff;
-    box-shadow: 0 0 30px rgba(176, 38, 255, 0.5);
+    border-color: #888;
+    box-shadow: 0 0 40px rgba(200, 200, 200, 0.15);
+    background: #151515;
 }
 
 .name-block input::placeholder {
-    color: #555;
+    color: #444;
+    letter-spacing: 1px;
 }
 
 /* Категория */
 .category {
-    margin-bottom: 60px;
+    margin-bottom: 70px;
 }
 
 .category-title {
-    font-size: 2rem;
-    color: #fff;
+    font-size: 1.4rem;
+    color: #aaa;
     margin-bottom: 30px;
     display: flex;
     align-items: center;
     gap: 15px;
-    letter-spacing: 2px;
+    letter-spacing: 6px;
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: 300;
+    padding-bottom: 15px;
+    border-bottom: 1px solid #1a1a1a;
 }
 
 .category-emoji {
-    font-size: 2.5rem;
-    filter: drop-shadow(0 0 15px #b026ff);
+    font-size: 1.8rem;
+    filter: grayscale(0.5);
+    opacity: 0.8;
 }
 
 /* Сетка опций */
@@ -163,10 +183,10 @@ body {
 }
 
 .option-card {
-    background: linear-gradient(145deg, #111, #0a0a0a);
-    border: 2px solid #222;
-    border-radius: 20px;
-    padding: 25px;
+    background: linear-gradient(145deg, #0f0f0f, #080808);
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
+    padding: 30px 25px;
     cursor: pointer;
     transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative;
@@ -180,8 +200,8 @@ body {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(176, 38, 255, 0.2), transparent);
-    transition: left 0.5s;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.05), transparent);
+    transition: left 0.6s;
 }
 
 .option-card:hover::before {
@@ -189,15 +209,17 @@ body {
 }
 
 .option-card:hover {
-    border-color: #b026ff;
-    box-shadow: 0 0 40px rgba(176, 38, 255, 0.4), inset 0 0 20px rgba(176, 38, 255, 0.1);
-    transform: translateY(-8px);
+    border-color: #444;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.08), inset 0 0 30px rgba(255, 255, 255, 0.02);
+    transform: translateY(-5px);
+    background: linear-gradient(145deg, #151515, #0a0a0a);
 }
 
 .option-card.selected {
-    border-color: #ffd700;
-    box-shadow: 0 0 50px rgba(255, 215, 0, 0.5), inset 0 0 30px rgba(255, 215, 0, 0.15);
-    background: linear-gradient(145deg, #1a1400, #0a0a0a);
+    border-color: #e0e0e0;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.3), inset 0 0 40px rgba(255, 255, 255, 0.05);
+    background: linear-gradient(145deg, #1a1a1a, #0f0f0f);
+    transform: translateY(-5px);
 }
 
 .option-card.selected::after {
@@ -205,62 +227,109 @@ body {
     position: absolute;
     top: 15px;
     right: 20px;
-    color: #ffd700;
-    font-size: 1.8rem;
-    font-weight: 900;
-    text-shadow: 0 0 15px #ffd700;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 300;
     animation: checkAppear 0.4s ease;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.8);
 }
 
 @keyframes checkAppear {
-    from { transform: scale(0) rotate(-180deg); }
-    to { transform: scale(1) rotate(0); }
+    from { transform: scale(0) rotate(-180deg); opacity: 0; }
+    to { transform: scale(1) rotate(0); opacity: 1; }
 }
 
 .option-emoji {
-    font-size: 3rem;
+    font-size: 2.5rem;
     margin-bottom: 15px;
     display: block;
-    filter: drop-shadow(0 0 10px rgba(176, 38, 255, 0.6));
+    filter: grayscale(0.4);
+    opacity: 0.85;
 }
 
 .option-name {
-    font-size: 1.4rem;
-    font-weight: 700;
-    color: #fff;
-    margin-bottom: 8px;
-    letter-spacing: 1px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #e0e0e0;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
 }
 
 .option-desc {
+    color: #666;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    font-weight: 300;
+}
+
+/* Информация о выборе */
+.selected-info {
+    text-align: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background: #0a0a0a;
+    border: 1px solid #1a1a1a;
+    border-radius: 5px;
+    transition: all 0.4s;
+}
+
+.selected-info p {
     color: #888;
     font-size: 0.95rem;
-    line-height: 1.5;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+.selected-info.active {
+    border-color: #666;
+    box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
+}
+
+.selected-info.active p {
+    color: #fff;
 }
 
 /* Кнопка голосования */
 .vote-btn {
     display: block;
     margin: 0 auto;
-    background: linear-gradient(135deg, #b026ff, #ff0080);
-    color: #fff;
-    border: none;
+    background: transparent;
+    color: #e0e0e0;
+    border: 1px solid #444;
     padding: 22px 70px;
-    border-radius: 50px;
-    font-size: 1.3rem;
-    font-weight: 900;
+    border-radius: 0;
+    font-size: 1rem;
+    font-weight: 400;
     cursor: pointer;
-    letter-spacing: 3px;
+    letter-spacing: 8px;
     text-transform: uppercase;
-    box-shadow: 0 0 40px rgba(176, 38, 255, 0.6);
-    transition: all 0.3s;
+    transition: all 0.4s;
     position: relative;
     overflow: hidden;
+    font-family: inherit;
+}
+
+.vote-btn::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+    transition: left 0.6s;
+}
+
+.vote-btn:hover::before {
+    left: 100%;
 }
 
 .vote-btn:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 60px rgba(255, 0, 128, 0.8);
+    border-color: #e0e0e0;
+    color: #fff;
+    box-shadow: 0 0 50px rgba(255, 255, 255, 0.2);
+    letter-spacing: 10px;
 }
 
 .vote-btn:active {
@@ -271,33 +340,31 @@ body {
 .blacklist-section {
     position: relative;
     z-index: 1;
-    padding: 80px 0;
-    background: linear-gradient(180deg, #0a0a0a, #1a0011);
-    border-top: 1px solid #222;
+    padding: 100px 0;
+    background: #030303;
+    border-top: 1px solid #1a1a1a;
 }
 
 .blacklist-title {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     text-align: center;
-    color: #ff0044;
-    letter-spacing: 5px;
+    color: #e0e0e0;
+    letter-spacing: 15px;
     text-transform: uppercase;
-    font-weight: 900;
+    font-weight: 200;
     margin-bottom: 15px;
-    text-shadow: 0 0 30px #ff0044, 0 0 60px #ff0044;
-    animation: pulseRed 2s ease infinite alternate;
-}
-
-@keyframes pulseRed {
-    from { text-shadow: 0 0 30px #ff0044, 0 0 60px #ff0044; }
-    to { text-shadow: 0 0 40px #ff0044, 0 0 80px #ff0044, 0 0 100px #ff0044; }
+    padding-bottom: 20px;
+    border-bottom: 1px solid #333;
+    display: inline-block;
+    width: 100%;
 }
 
 .blacklist-subtitle {
     text-align: center;
-    color: #888;
+    color: #555;
     margin-bottom: 50px;
-    font-size: 1rem;
+    font-size: 0.9rem;
+    letter-spacing: 2px;
     font-style: italic;
 }
 
@@ -308,9 +375,9 @@ body {
 }
 
 .blacklist-item {
-    background: linear-gradient(145deg, #1a0008, #0a0a0a);
-    border: 2px solid #33001a;
-    border-radius: 20px;
+    background: linear-gradient(145deg, #0a0a0a, #050505);
+    border: 1px solid #1a1a1a;
+    border-radius: 8px;
     padding: 30px;
     position: relative;
     overflow: hidden;
@@ -318,60 +385,49 @@ body {
 }
 
 .blacklist-item::before {
-    content: '🚫';
+    content: '✕';
     position: absolute;
-    top: -20px;
-    right: -20px;
-    font-size: 8rem;
-    opacity: 0.05;
+    top: -30px;
+    right: -10px;
+    font-size: 10rem;
+    opacity: 0.03;
+    color: #fff;
+    font-weight: 900;
 }
 
 .blacklist-item:hover {
-    border-color: #ff0044;
-    box-shadow: 0 0 40px rgba(255, 0, 68, 0.4);
-    transform: translateY(-5px);
+    border-color: #666;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.08);
+    transform: translateY(-3px);
 }
 
 .blacklist-name {
-    font-size: 1.6rem;
-    font-weight: 900;
-    color: #ff0044;
+    font-size: 1.3rem;
+    font-weight: 300;
+    color: #e0e0e0;
     margin-bottom: 15px;
-    letter-spacing: 2px;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    text-shadow: 0 0 15px rgba(255, 0, 68, 0.6);
+    padding-bottom: 15px;
+    border-bottom: 1px solid #222;
 }
 
 .blacklist-reason {
-    color: #ccc;
-    font-size: 1.05rem;
-    line-height: 1.6;
-    border-left: 3px solid #ff0044;
+    color: #999;
+    font-size: 0.95rem;
+    line-height: 1.7;
     padding-left: 15px;
-}
-
-.blacklist-reason::before {
-    content: '«';
-    color: #ff0044;
-    font-size: 1.4rem;
-    margin-right: 5px;
-}
-
-.blacklist-reason::after {
-    content: '»';
-    color: #ff0044;
-    font-size: 1.4rem;
-    margin-left: 5px;
+    border-left: 2px solid #444;
+    font-style: italic;
 }
 
 .blacklist-blocked {
     margin-top: 20px;
-    color: #ff0044;
-    font-size: 0.85rem;
-    letter-spacing: 3px;
+    color: #666;
+    font-size: 0.75rem;
+    letter-spacing: 4px;
     text-transform: uppercase;
-    font-weight: 700;
-    opacity: 0.7;
+    font-weight: 400;
 }
 
 /* Подвал */
@@ -380,10 +436,11 @@ body {
     z-index: 1;
     text-align: center;
     padding: 40px 20px;
-    color: #555;
-    font-size: 0.95rem;
-    border-top: 1px solid #1a1a1a;
-    letter-spacing: 1px;
+    color: #333;
+    font-size: 0.8rem;
+    border-top: 1px solid #0f0f0f;
+    letter-spacing: 4px;
+    text-transform: uppercase;
 }
 
 /* Уведомление */
@@ -392,17 +449,18 @@ body {
     bottom: 40px;
     left: 50%;
     transform: translateX(-50%) translateY(200px);
-    background: linear-gradient(135deg, #b026ff, #ff0080);
-    color: #fff;
+    background: #0f0f0f;
+    color: #e0e0e0;
     padding: 20px 40px;
-    border-radius: 50px;
-    font-size: 1.1rem;
-    font-weight: 700;
-    box-shadow: 0 0 40px rgba(176, 38, 255, 0.6);
+    border: 1px solid #444;
+    font-size: 0.95rem;
+    letter-spacing: 3px;
+    text-transform: uppercase;
     z-index: 9999;
     transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     max-width: 90%;
     text-align: center;
+    box-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
 }
 
 .toast.show {
@@ -413,46 +471,63 @@ body {
 @media (max-width: 700px) {
     .hero-title {
         font-size: 2.8rem;
-        letter-spacing: 1px;
+        letter-spacing: 2px;
+    }
+    
+    .title-accent {
+        font-size: 1.8rem;
+        letter-spacing: 10px;
     }
     
     .hero-date {
-        font-size: 1rem;
-        letter-spacing: 5px;
+        font-size: 0.85rem;
+        letter-spacing: 8px;
     }
     
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 0.85rem;
+        letter-spacing: 2px;
     }
     
     .category-title {
-        font-size: 1.5rem;
+        font-size: 1rem;
+        letter-spacing: 4px;
     }
     
     .category-emoji {
-        font-size: 2rem;
+        font-size: 1.4rem;
     }
     
     .option-card {
-        padding: 20px;
+        padding: 25px 20px;
     }
     
     .option-emoji {
-        font-size: 2.5rem;
+        font-size: 2rem;
     }
     
     .option-name {
-        font-size: 1.2rem;
+        font-size: 1rem;
     }
     
     .vote-btn {
         padding: 18px 40px;
-        font-size: 1.1rem;
-        letter-spacing: 2px;
+        letter-spacing: 5px;
+        font-size: 0.9rem;
+        width: 100%;
+    }
+    
+    .vote-btn:hover {
+        letter-spacing: 6px;
     }
     
     .blacklist-title {
-        font-size: 1.8rem;
-        letter-spacing: 3px;
+        font-size: 1.4rem;
+        letter-spacing: 8px;
+    }
+    
+    .blacklist-name {
+        font-size: 1.1rem;
+        letter-spacing: 2px;
     }
 }
